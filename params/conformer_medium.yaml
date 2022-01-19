@@ -78,11 +78,11 @@ test_dataloader_opts:
 
 ####################### Model parameters ###########################
 # Transformer
-d_model: 144
+d_model: 256
 nhead: 4
 num_encoder_layers: 12
-num_decoder_layers: 4
-d_ffn: 1024
+num_decoder_layers: 6
+d_ffn: 2048
 transformer_dropout: 0.1
 activation: !name:torch.nn.GELU
 output_neurons: 5000

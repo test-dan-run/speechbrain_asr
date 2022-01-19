@@ -143,14 +143,6 @@ class ASR(sb.core.Brain):
             # anneal lr every update
             self.hparams.noam_annealing(self.optimizer)
 
-            if isinstance(
-                self.hparams.train_logger,
-                sb.utils.train_logger.TensorboardLogger,
-            ):
-                self.hparams.train_logger.log_stats(
-                    stats_meta={"step": self.step}, train_stats={"loss": loss},
-                )
-
         return loss.detach()
 
     def evaluate_batch(self, batch, stage):
@@ -204,11 +196,19 @@ class ASR(sb.core.Brain):
                 "steps": steps,
                 "optimizer": optimizer,
             }
-            self.hparams.train_logger.log_stats(
-                stats_meta=epoch_stats,
-                train_stats=self.train_stats,
-                valid_stats=stage_stats,
-            )
+            # self.hparams.train_logger.log_stats(
+            #     stats_meta=epoch_stats,
+            #     train_stats=self.train_stats,
+            #     valid_stats=stage_stats,
+            # )
+
+            if self.hparams.use_tensorboard:
+                self.hparams.tensorboard_train_logger.log_stats(
+                    stats_meta=epoch_stats,
+                    train_stats=self.train_stats,
+                    valid_stats=stage_stats,
+                )
+
             self.checkpointer.save_and_keep_only(
                 meta={"ACC": stage_stats["ACC"], "epoch": epoch},
                 max_keys=["ACC"],
@@ -314,6 +314,13 @@ def dataio_prepare(hparams, tokenizer):
     else:
         raise NotImplementedError(
             "sorting must be random, ascending or descending"
+        )
+
+    if hparams["use_tensorboard"]:
+        from speechbrain.utils.train_logger import TensorboardLogger
+
+        hparams["tensorboard_train_logger"] = TensorboardLogger(
+            hparams["tensorboard_logs"]
         )
 
     valid_data = sb.dataio.dataset.DynamicItemDataset.from_csv(
