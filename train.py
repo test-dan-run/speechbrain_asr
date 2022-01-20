@@ -194,7 +194,7 @@ class ASR(sb.core.Brain):
                 "epoch": epoch,
                 "lr": lr,
                 "steps": steps,
-                "optimizer": optimizer,
+                # "optimizer": optimizer,
             }
             # self.hparams.train_logger.log_stats(
             #     stats_meta=epoch_stats,
@@ -210,8 +210,8 @@ class ASR(sb.core.Brain):
                 )
 
             self.checkpointer.save_and_keep_only(
-                meta={"ACC": stage_stats["ACC"], "epoch": epoch},
-                max_keys=["ACC"],
+                meta={"ACC": stage_stats["ACC"], "WER": stage_stats["WER"], "CER": stage_stats["CER"], "epoch": epoch},
+                max_keys=["ACC", "WER", "CER"],
             )
 
         elif stage == sb.Stage.TEST:

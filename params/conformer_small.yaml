@@ -11,6 +11,7 @@
 seed: 1337
 __set_seed: !apply:torch.manual_seed [!ref <seed>]
 output_folder: !ref results/transformer/<seed>
+ckpt_interval_minutes: 15 # save checkpoint every N min
 wer_file: !ref <output_folder>/wer.txt
 save_folder: !ref <output_folder>/save
 train_log: !ref <output_folder>/train_log.txt
@@ -35,15 +36,16 @@ skip_prep: False # Skip data preparation
 # longer sentences certainly correspond to "open microphones".
 avoid_if_longer_than: 10.0
 
+
 # Training parameters
 # To make Transformers converge, the global bath size should be large enough.
 # The global batch size is computed as batch_size * n_gpus * gradient_accumulation.
 # Empirically, we found that this value should be >= 128.
 # Please, set your parameters accordingly.
 number_of_epochs: 100
-batch_size: 16 # This works for GPUs with 80GB
+batch_size: 4
 ctc_weight: 0.3
-gradient_accumulation: 4
+gradient_accumulation: 32
 gradient_clipping: 5.0
 loss_reduction: 'batchmean'
 sorting: random
@@ -245,3 +247,5 @@ tensorboard_train_logger: !new:speechbrain.utils.train_logger.TensorboardLogger
 
 error_rate_computer: !name:speechbrain.utils.metric_stats.ErrorRateStats
 acc_computer: !name:speechbrain.utils.Accuracy.AccuracyStats
+cer_computer: !name:speechbrain.utils.metric_stats.ErrorRateStats
+    split_tokens: True
