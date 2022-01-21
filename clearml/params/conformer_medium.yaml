@@ -20,6 +20,8 @@ use_tensorboard: True
 tensorboard_logs: !ref <output_folder>/logs/
 
 # Data files
+clearml_dataset_project: datasets/commonvoice
+clearml_dataset_name: cv-corpus-7.0-2021-07-21-en-raw
 data_folder: /datasets/cv_en # e.g. local/cv-corpus/fr
 train_tsv_file: !ref <data_folder>/train.tsv  # Standard CommonVoice .tsv files
 dev_tsv_file: !ref <data_folder>/dev.tsv  # Standard CommonVoice .tsv files
@@ -43,7 +45,7 @@ avoid_if_longer_than: 10.0
 number_of_epochs: 100
 batch_size: 16 # This works for GPUs with 80GB
 ctc_weight: 0.3
-gradient_accumulation: 4
+gradient_accumulation: 8
 gradient_clipping: 5.0
 loss_reduction: 'batchmean'
 sorting: random
@@ -99,7 +101,7 @@ unk_index: 0
 # Decoding parameters
 min_decode_ratio: 0.0
 max_decode_ratio: 1.0
-valid_search_interval: 10
+valid_search_interval: 1
 valid_beam_size: 10
 test_beam_size: 60
 ctc_weight_decode: 0.40

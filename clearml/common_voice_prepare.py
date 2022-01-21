@@ -13,14 +13,16 @@ import re
 import logging
 import torchaudio
 import unicodedata
+from clearml import Dataset
 from tqdm.contrib import tzip
 
 logger = logging.getLogger(__name__)
 
 
 def prepare_common_voice(
-    data_folder,
     save_folder,
+    clearml_dataset_project,
+    clearml_dataset_name=None,
     train_tsv_file=None,
     dev_tsv_file=None,
     test_tsv_file=None,
@@ -74,6 +76,9 @@ def prepare_common_voice(
 
     if skip_prep:
         return
+
+    dataset = Dataset.get(dataset_project=clearml_dataset_project, dataset_name=clearml_dataset_name)
+    data_folder = dataset.get_local_copy()    
 
     # If not specified point toward standard location w.r.t CommonVoice tree
     if train_tsv_file is None:

@@ -16,7 +16,7 @@ task = Task.init(project_name=PROJECT_NAME, task_name=TASK_NAME)
 task.add_tags(TAGS)
 
 # setup environment varables if scheduling for remote execution
-if isfile():
+if isfile(ENV_PATH):
     # generates -> harbor.xx.xx:v4.2 --env AWS_ACCESS_KEY=xxx --env AWS_ACCESS_SECRET=yyy ...
     docker_task_string = generate_docker_task_string(DOCKER_PATH, ENV_PATH)
     # task.set_base_docker('harbor.xx.xx:v4.2 --env AWS_ACCESS_KEY=xxx --env AWS_ACCESS_SECRET=yyy ...')
@@ -614,8 +614,9 @@ if __name__ == "__main__":
     run_on_main(
         prepare_common_voice,
         kwargs={
-            "data_folder": hparams["data_folder"],
             "save_folder": hparams["save_folder"],
+            "clearml_dataset_project": hparams["clearml_dataset_project"],
+            "clearml_dataset_name": hparams["clearml_dataset_name"],
             "train_tsv_file": hparams["train_tsv_file"],
             "dev_tsv_file": hparams["dev_tsv_file"],
             "test_tsv_file": hparams["test_tsv_file"],
