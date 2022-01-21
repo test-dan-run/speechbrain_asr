@@ -21,10 +21,7 @@ tensorboard_logs: !ref <output_folder>/logs/
 
 # Data files
 
-s3_src_bucket: public-data
-s3_src_path: datasets/commonvoice/cv-corpus-7.0-2021-07-21-en.tar.gz
-s3_dst_path: /datasets
-data_folder: <s3_dst_path>/cv-corpus-7.0-2021-07-21/en # e.g. local/cv-corpus/fr
+data_folder: ./cv-corpus-7.0-2021-07-21/en # e.g. local/cv-corpus/fr
 train_tsv_file: !ref <data_folder>/train.tsv  # Standard CommonVoice .tsv files
 dev_tsv_file: !ref <data_folder>/dev.tsv  # Standard CommonVoice .tsv files
 test_tsv_file: !ref <data_folder>/test.tsv  # Standard CommonVoice .tsv files

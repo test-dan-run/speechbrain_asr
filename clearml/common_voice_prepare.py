@@ -26,9 +26,7 @@ def prepare_common_voice(
     test_tsv_file=None,
     accented_letters=False,
     language="en",
-    skip_prep=False,
-    download_from_s3=False,
-    s3_configs={}
+    skip_prep=False
 ):
     """
     Prepares the csv files for the Mozilla Common Voice dataset.
@@ -76,9 +74,6 @@ def prepare_common_voice(
 
     if skip_prep:
         return
-
-    if download_from_s3:
-        extract_upload_from_s3(s3_configs.src_bucket, s3_configs.src_path, s3_configs.dst_path)
 
     # If not specified point toward standard location w.r.t CommonVoice tree
     if train_tsv_file is None:
@@ -373,7 +368,3 @@ def strip_accents(text):
     )
 
     return str(text)
-
-def extract_upload_from_s3(src_bucket, src_path, dst_path, dst_bucket=None, src_is_dir=False, verbose=False):
-    from s3_extract import extract
-    extract(src_bucket, src_path, dst_path, dst_bucket=dst_bucket, src_is_dir=src_is_dir, verbose=verbose)

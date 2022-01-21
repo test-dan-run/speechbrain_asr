@@ -622,11 +622,6 @@ if __name__ == "__main__":
             "accented_letters": hparams["accented_letters"],
             "language": hparams["language"],
             "skip_prep": hparams["skip_prep"],
-            "s3_configs": {
-                'src_bucket': hparams['s3_src_bucket'],
-                'src_path': hparams['s3_src_path'],
-                'dst_path': hparams['s3_dst_path']
-            }
         },
     )
 
