@@ -1,19 +1,20 @@
-version: '3.4'
+version: "3.9"
 
 services:
-
   local:
     stdin_open: true
     tty: true
-    image: speechbrain_asr:v0.0.1
-    runtime: nvidia
-    environment:
-      NVIDIA_VISIBLE_DEVICES: 0
+    image: speechbrain:v0.5.11
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
     ports:
       - 6006:6006
     volumes:
-      - /home/daniel/projects/speechbrain_asr:/speechbrain_asr
-      - /home/daniel/datasets:/datasets:z
+      - /mnt/c/projects/speechbrain_asr:/workspace
+      - /mnt/c/datasets:/datasets:z
     ulimits:
       memlock: -1
       stack: 67108864
@@ -23,7 +24,7 @@ services:
   tensorboard:
     stdin_open: true
     tty: true
-    image: compact_lid:v0.1.3
+    image: speechbrain:v0.5.11
     ports:
       - 6006:6006
     volumes:

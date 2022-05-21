@@ -1,4 +1,4 @@
-# docker build -t speechbrain_asr:v0.0.1 .
+# docker build -t speechbrain:v0.5.11 .
 
 #use the base package for from official pytorch source 
 FROM pytorch/pytorch:1.8.1-cuda11.1-cudnn8-runtime
@@ -23,5 +23,5 @@ ADD requirements.txt .
 RUN python3 -m pip install --no-cache-dir -r requirements.txt
 
 #docker container starts with bash
-WORKDIR /speechbrain_asr
+WORKDIR /workspace
 RUN ["bash"]
